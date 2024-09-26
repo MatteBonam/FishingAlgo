@@ -166,6 +166,7 @@ hourly_data["wind"] = hourly_wind
 hourly_data["pressure"] = hourly_pressure
 hourly_data["clouds"] = hourly_clouds
 hourly_data["rain"] = hourly_rain
+hourly_dataframe = pd.DataFrame(data = hourly_data)
 
 specie = st.radio(
     "Di quale pesce vuoi conoscere l'attivita?",
