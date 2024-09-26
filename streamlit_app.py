@@ -236,9 +236,6 @@ if output and output['last_clicked'] is not None:
     # Salvare il marker nel session state
     st.session_state.marker = {'lat': lat, 'lng': lng}
     
-    # Aggiornare solo le coordinate mostrate
-    st.write(f"Coordinate selezionate: Latitudine: {lat}, Longitudine: {lng}")
-    
     # Aggiungere il marker alla mappa
     m = folium.Map(location=inizio_mappa, zoom_start=12)
     folium.Marker([lat, lng], popup="Punto selezionato").add_to(m)
