@@ -126,6 +126,11 @@ st.title("Previsioni Meteo")
 latitude = 44.59  # Coordinata di Bologna
 longitude = 11.34
 
+# Setup the Open-Meteo API client with cache and retry on error
+cache_session = requests_cache.CachedSession('.cache', expire_after = 3600)
+retry_session = retry(cache_session, retries = 5, backoff_factor = 0.2)
+openmeteo = openmeteo_requests.Client(session = retry_session)
+                                      
 # Se non c'è uno stato iniziale del marker, lo inizializziamo
 if 'marker' not in st.session_state:
     st.session_state.marker = None
