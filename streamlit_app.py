@@ -205,7 +205,7 @@ chart = alt.Chart(df_filtered).mark_line().encode(
     y='attivita:Q',  # Q indica "quantitative" per l'asse delle temperature
     color='date:N'  # N indica "nominal" per le date
 ).properties(
-    title='Temperature giornaliere sovrapposte'
+    title='Attività previste per i prossimi 7 giorni'
 )
 
 # Display the data as a table using `st.dataframe`.
