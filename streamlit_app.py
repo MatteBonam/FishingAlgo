@@ -14,13 +14,13 @@ from retry_requests import retry
 def calcola_data(data):
     st.write(data)
     # Estrai solo la data
-    date_only = timestamp = pd.to_datetime(data)
+    date_only = pd.to_datetime(data)
     return date_only
 
 def calcola_fase_lunare(data):
     st.write(data)
     # Data di riferimento per la Luna Nuova (ad esempio il 6 gennaio 2000)
-    riferimento = datetime(2000, 1, 6)
+    riferimento = pd.datetime(2000, 1, 6)
     st.write(riferimento)
     # Calcolo dei giorni passati dalla data di riferimento
     giorni_passati = (data - riferimento).days
