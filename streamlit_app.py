@@ -12,6 +12,7 @@ import requests_cache
 from retry_requests import retry
 
 def calcola_data(data):
+    st.write(data)
     datafinale = data[11:21]
     return datafinale
 
