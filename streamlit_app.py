@@ -19,8 +19,7 @@ def calcola_data(data):
     # Usa fromisoformat per convertire la stringa in datetime
     dt_obj = datetime.fromisoformat(data)
     # Riformatta senza fuso orario
-    new_timestamp_str = dt_obj.strftime("%Y-%m-%d %H:%M:%S")
-    return new_timestamp_str
+    return dt_obj
 
 def calcola_fase_lunare(data):
     st.write(data)
