@@ -178,8 +178,6 @@ specie = st.radio(
 
 hourly_data['time'] = pd.to_datetime(hourly_data['time'])
 # Aggiungi anche i dati dalla sezione 'main'
-hourly_data['hour'] = hourly_data['time'].dt.hour
-hourly_data['date'] = hourly_data['time'].dt.strftime('%Y-%m-%d')
 hourly_data['latitude'] = latitude
 hourly_data['longitude'] = longitude
 #df['attivita'] = calcola_attivita_pesca(specie, df)
@@ -189,7 +187,7 @@ for index, row in hourly_data.iterrows():
     attivita = calcola_attivita_pesca(specie, row)
     hourly_data.at[index, 'attivita'] = (attivita)
 # Filter the dataframe based on the widget input and reshape it.
-df_filtered = hourly_data[(hourly_data['hour'].between(hour[0], hour[1]))]
+df_filtered = hourly_data[(hourly_data['time'].between(hour[0], hour[1]))]
 
 chart = alt.Chart(df_filtered).mark_line().encode(
     x='hour:O',  # O indica "ordinal" per l'asse delle ore
