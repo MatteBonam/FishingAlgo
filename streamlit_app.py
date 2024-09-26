@@ -15,7 +15,7 @@ def calcola_data(data):
     st.write(data)
     # Estrai solo la data
     date_only = timestamp = pd.to_datetime(data)
-    return date_only.date()
+    return date_only
 
 def calcola_fase_lunare(data):
     st.write(data)
