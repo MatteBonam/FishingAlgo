@@ -146,7 +146,7 @@ params = {
     "forecast_days" : 14
 }
 response = openmeteo.weather_api(url, params)
-
+response = response[0]
 hourly = response.Hourly()
 hourly_temperature_2m = hourly.Variables(0).ValuesAsNumpy()
 hourly_wind = hourly.variables(1).ValueAsNumpy()
