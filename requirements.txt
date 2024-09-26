@@ -1,1 +1,7 @@
 streamlit
+pandas
+requests
+altair
+scipy
+folium
+streamlit_folium
