@@ -13,8 +13,11 @@ from retry_requests import retry
 
 def calcola_data(data):
     st.write(data)
-    datafinale = data[11:21]
-    return datafinale
+    dt_obj = datetime.fromisoformat(data)
+
+    # Estrai solo la data
+    date_only = dt_obj.date()
+    return date_only
 
 def calcola_fase_lunare(data):
 
