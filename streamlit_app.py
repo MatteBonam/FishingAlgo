@@ -14,8 +14,9 @@ from retry_requests import retry
 def calcola_data(data):
     st.write(data)
     # Estrai solo la data
+    data = data.split('+')[0]
+    # Usa fromisoformat per convertire la stringa in datetime
     dt_obj = datetime.fromisoformat(data)
-
     # Riformatta senza fuso orario
     new_timestamp_str = dt_obj.strftime("%Y-%m-%d %H:%M:%S")
     return new_timestamp_str
