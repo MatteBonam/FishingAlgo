@@ -221,5 +221,5 @@ output = st_folium(mappa, width=725, height=500)
 # Controllo se un marker è stato cliccato
 if output != None:
     st.write("Coordinate selezionate:")
-    st.write(f"Latitudine: {output['last_clicked']['lat']}, Longitudine: {output['last_clicked']['lng']}")
+    #st.write(f"Latitudine: {output['last_clicked']['lat']}, Longitudine: {output['last_clicked']['lng']}")
 st.altair_chart(chart, use_container_width=True)
