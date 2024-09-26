@@ -7,6 +7,9 @@ from scipy.interpolate import make_interp_spline
 from datetime import datetime
 import folium
 from streamlit_folium import st_folium
+import openmeteo_requests
+import requests_cache
+from retry_requests import retry
 
 def calcola_fase_lunare(data):
 
@@ -130,8 +133,14 @@ if 'marker' not in st.session_state:
 if st.session_state.marker:
     latitude, longitude= st.session_state.marker['lat'], st.session_state.marker['lng']
 
-url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,wind_speed_10m,surface_pressure,cloud_cover,rain"
-response = requests.get(url)
+url = f"https://api.open-meteo.com/v1/forecast"
+params = {
+    "latitude": latitude,
+    "longitude" : longitude,
+    "hourly" : ["temperature_2m","wind_speed_10m","surface_pressure","cloud_cover","rain"],
+    "forecast_days" : 14
+}
+response = openmeteo.weather_api(url, params)
 data = response.json()
 # Estrai la lista di dati meteorologici
 weather_list = data.get('hourly', [])
