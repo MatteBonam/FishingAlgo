@@ -40,12 +40,12 @@ def calcola_stagione(data):
         return "autunno"
 
 def calcola_attivita_pesca(specie, dati_giorno):
-    temperatura = dati_giorno['temperature0']
-    pressione = dati_giorno['pressure0']
-    vento_velocita = dati_giorno['wind0']
-    nuvolosita = dati_giorno['clouds0']
-    pioggia = dati_giorno['rain0']
-    data_corrente = dati_giorno['time0']
+    temperatura = dati_giorno['temperature']
+    pressione = dati_giorno['pressure']
+    vento_velocita = dati_giorno['wind']
+    nuvolosita = dati_giorno['clouds']
+    pioggia = dati_giorno['rain']
+    data_corrente = dati_giorno['time']
 
         # Punteggio di attività iniziale
     attivita = 100  # partiamo da 100 e lo riduciamo proporzionalmente alle condizioni
@@ -150,45 +150,25 @@ data = response.json()
 # Estrai la lista di dati meteorologici
 weather_list = data.get('hourly', [])
 
-# Estrai il secondo array
-df_time = pd.json_normalize(
-    weather_list,
-    sep='_',
-    record_path='time'
-).add_prefix('time')
+hourly = response.Hourly()
+hourly_temperature_2m = hourly.Variables(0).ValuesAsNumpy()
+hourly_wind = hourly.variables(1).ValueAsNumpy()
+hourly_pressure = hourly.variables(2).ValueAsNumpy()
+hourly_clouds = hourly.variables(3).ValueAsNumpy()
+hourly_rain = hourly.Variables(4).ValuesAsNumpy()
 
-df_temp = pd.json_normalize(
-    weather_list,
-    sep='_',
-    record_path='temperature_2m'
-).add_prefix('temperature')
+hourly_data = {"time": pd.date_range(
+	start = pd.to_datetime(hourly.Time(), unit = "s", utc = True),
+	end = pd.to_datetime(hourly.TimeEnd(), unit = "s", utc = True),
+	freq = pd.Timedelta(seconds = hourly.Interval()),
+	inclusive = "left"
+)}
 
-df_wind = pd.json_normalize(
-    weather_list,
-    sep='_',
-    record_path='wind_speed_10m'
-).add_prefix('wind')
-
-df_pressure = pd.json_normalize(
-    weather_list,
-    sep='_',
-    record_path='surface_pressure'
-).add_prefix('pressure')
-
-df_clouds = pd.json_normalize(
-    weather_list,
-    sep='_',
-    record_path='cloud_cover'
-).add_prefix('clouds')
-
-df_rain = pd.json_normalize(
-    weather_list,
-    sep='_',
-    record_path='rain'
-).add_prefix('rain')
-
-# Unisci i due dataframe
-df = pd.concat([df_time, df_temp, df_wind, df_pressure, df_clouds, df_rain], axis=1)
+hourly_data["temperature"] = hourly_temperature_2m
+hourly_data["wind"] = hourly_wind
+hourly_data["pressure"] = hourly_pressure
+hourly_data["clouds"] = hourly_clouds
+hourly_data["rain"] = hourly_rain
 
 specie = st.radio(
     "Di quale pesce vuoi conoscere l'attivita?",
@@ -199,20 +179,20 @@ specie = st.radio(
     ],
 )
 
-df['time0'] = pd.to_datetime(df['time0'])
+hourly_data['time'] = pd.to_datetime(hourly_data['time'])
 # Aggiungi anche i dati dalla sezione 'main'
-df['hour'] = df['time0'].dt.hour
-df['date'] = df['time0'].dt.strftime('%Y-%m-%d')
-df['latitude'] = latitude
-df['longitude'] = longitude
+hourly_data['hour'] = hourly_data['time'].dt.hour
+hourly_data['date'] = hourly_data['time'].dt.strftime('%Y-%m-%d')
+hourly_data['latitude'] = latitude
+hourly_data['longitude'] = longitude
 #df['attivita'] = calcola_attivita_pesca(specie, df)
 # Show a slider widget with the years using `st.slider`.
 hour = st.slider("Fascia oraria scelta", 0, 24, (12, 15))
-for index, row in df.iterrows():
+for index, row in hourly_data.iterrows():
     attivita = calcola_attivita_pesca(specie, row)
-    df.at[index, 'attivita'] = (attivita)
+    hourly_data.at[index, 'attivita'] = (attivita)
 # Filter the dataframe based on the widget input and reshape it.
-df_filtered = df[(df['hour'].between(hour[0], hour[1]))]
+df_filtered = hourly_data[(hourly_data['hour'].between(hour[0], hour[1]))]
 
 chart = alt.Chart(df_filtered).mark_line().encode(
     x='hour:O',  # O indica "ordinal" per l'asse delle ore
