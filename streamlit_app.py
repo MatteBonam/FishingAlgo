@@ -205,7 +205,7 @@ for index, row in hourly_dataframe.iterrows() :
     hourly_dataframe.at[index, 'attivita'] = (attivita)
 hourly_dataframe["hour"] = hourly_dataframe["time"].hour
 # Filter the dataframe based on the widget input and reshape it.
-df_filtered = hourly_dataframe[(hourly_dataframe['time'].between(hour[0], hour[1]))]
+df_filtered = hourly_dataframe[(hourly_dataframe['hour'].between(hour[0], hour[1]))]
 
 chart = alt.Chart(df_filtered).mark_line().encode(
     x='hour:O',  # O indica "ordinal" per l'asse delle ore
