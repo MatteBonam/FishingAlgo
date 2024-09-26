@@ -185,7 +185,14 @@ hourly_dataframe['longitude'] = longitude
 # Show a slider widget with the years using `st.slider`.
 hour = st.slider("Fascia oraria scelta", 0, 24, (12, 15))
 for index, row in hourly_dataframe.iterrows() :
-    st.write(row)
+    item = {
+        "time": row["time"],
+        "temperature": row["temperature"],
+        "rain": row["rain"],
+        "pressure": row["pressure"],
+        "clouds": row["clouds"],
+        "wind": row["wind"]
+    }
     #attivita = calcola_attivita_pesca(specie, row)
     #hourly_data.at[index, 'attivita'] = (attivita)
 # Filter the dataframe based on the widget input and reshape it.
