@@ -205,6 +205,7 @@ for index, row in hourly_dataframe.iterrows() :
     hourly_dataframe.at[index, 'attivita'] = (attivita)
     hourly_dataframe.at[index, 'hour'] = item['time'].hour
     hourly_dataframe.at[index, 'date'] = calcola_data(item['time'])
+    st.write(calcola_data(item['time']))
 # Filter the dataframe based on the widget input and reshape it.
 df_filtered = hourly_dataframe[(hourly_dataframe['hour'].between(hour[0], hour[1]))]
 
