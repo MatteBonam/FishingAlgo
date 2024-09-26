@@ -11,6 +11,9 @@ import openmeteo_requests
 import requests_cache
 from retry_requests import retry
 
+def calcola_data(data):
+    datafinale = data[11:21]
+
 def calcola_fase_lunare(data):
 
     # Data di riferimento per la Luna Nuova (ad esempio il 6 gennaio 2000)
@@ -45,7 +48,7 @@ def calcola_attivita_pesca(specie, dati_giorno):
     vento_velocita = dati_giorno['wind']
     nuvolosita = dati_giorno['clouds']
     pioggia = dati_giorno['rain']
-    data_corrente = dati_giorno['time']
+    data_corrente = calcola_data(dati_giorno['time'])
 
         # Punteggio di attività iniziale
     attivita = 100  # partiamo da 100 e lo riduciamo proporzionalmente alle condizioni
@@ -177,7 +180,7 @@ specie = st.radio(
     ],
 )
 
-hourly_dataframe['time'] = pd.to_datetime(hourly_data['time'])
+hourly_dataframe['time'] = pd.to_datetime(hourly_dataframe['time'])
 # Aggiungi anche i dati dalla sezione 'main'
 hourly_dataframe['latitude'] = latitude
 hourly_dataframe['longitude'] = longitude
