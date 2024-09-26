@@ -149,9 +149,9 @@ response = openmeteo.weather_api(url, params)
 response = response[0]
 hourly = response.Hourly()
 hourly_temperature_2m = hourly.Variables(0).ValuesAsNumpy()
-hourly_wind = hourly.Variables(1).ValueAsNumpy()
-hourly_pressure = hourly.Variables(2).ValueAsNumpy()
-hourly_clouds = hourly.Variables(3).ValueAsNumpy()
+hourly_wind = hourly.Variables(1).ValuesAsNumpy()
+hourly_pressure = hourly.Variables(2).ValuesAsNumpy()
+hourly_clouds = hourly.Variables(3).ValuesAsNumpy()
 hourly_rain = hourly.Variables(4).ValuesAsNumpy()
 
 hourly_data = {"time": pd.date_range(
