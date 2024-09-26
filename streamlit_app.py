@@ -204,13 +204,14 @@ for index, row in hourly_dataframe.iterrows() :
     attivita = calcola_attivita_pesca(specie, item)
     hourly_dataframe.at[index, 'attivita'] = (attivita)
     hourly_dataframe.at[index, 'hour'] = item['time'].hour
+    hourly_dataframe.at[index, 'date'] = item['time'].date
 # Filter the dataframe based on the widget input and reshape it.
 df_filtered = hourly_dataframe[(hourly_dataframe['hour'].between(hour[0], hour[1]))]
 
 chart = alt.Chart(df_filtered).mark_line().encode(
     x='hour:O',  # O indica "ordinal" per l'asse delle ore
     y='attivita:Q',  # Q indica "quantitative" per l'asse delle temperature
-    color='time:N'  # N indica "nominal" per le date
+    color='date:N'  # N indica "nominal" per le date
 ).properties(
     title='Attività previste per i prossimi 7 giorni'
 )
