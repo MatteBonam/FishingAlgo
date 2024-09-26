@@ -14,7 +14,7 @@ from retry_requests import retry
 def calcola_data(data):
     st.write(data)
     # Estrai solo la data
-    date_only = data.date()
+    date_only = datetime(data)
     return date_only
 
 def calcola_fase_lunare(data):
