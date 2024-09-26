@@ -123,6 +123,10 @@ st.title("Previsioni Meteo")
 latitude = 44.59  # Coordinata di Bologna
 longitude = 11.34
 
+# Se non c'è uno stato iniziale del marker, lo inizializziamo
+if 'marker' not in st.session_state:
+    st.session_state.marker = None
+
 if st.session_state.marker:
     latitude, longitude= st.session_state.marker['lat'], st.session_state.marker['lng']
 
@@ -212,11 +216,6 @@ if st.checkbox('Show raw data', value=True):
 
 inizio_mappa = [latitude, longitude]
 
-
-
-# Se non c'è uno stato iniziale del marker, lo inizializziamo
-if 'marker' not in st.session_state:
-    st.session_state.marker = None
 
 # Creare una mappa di base
 m = folium.Map(location=inizio_mappa, zoom_start=12)
