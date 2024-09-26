@@ -194,8 +194,8 @@ for index, row in hourly_dataframe.iterrows() :
         "wind": row["wind"]
     }
     st.write(item)
-    #attivita = calcola_attivita_pesca(specie, row)
-    #hourly_data.at[index, 'attivita'] = (attivita)
+    attivita = calcola_attivita_pesca(specie, item)
+    hourly_dataframe.at[index, 'attivita'] = (attivita)
 # Filter the dataframe based on the widget input and reshape it.
 df_filtered = hourly_dataframe[(hourly_dataframe['time'].between(hour[0], hour[1]))]
 
