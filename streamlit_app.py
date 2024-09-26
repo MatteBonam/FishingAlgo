@@ -118,19 +118,14 @@ def calcola_attivita_pesca(specie, dati_giorno):
     
     return attivita
 
-# Funzione per creare una mappa interattiva
-def create_map(location=[44.59, 11.34], zoom_start=12):
-    m = folium.Map(location=location, zoom_start=zoom_start)
-
-    # Aggiungi un marker
-    folium.Marker(location).add_to(m)
-
-    return m
-
 st.title("Previsioni Meteo")
 
 latitude = 44.59  # Coordinata di Bologna
 longitude = 11.34
+
+if st.session_state.marker:
+    latitude, longitude= st.session_state.marker['lat'], st.session_state.marker['lng']
+
 url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,wind_speed_10m,surface_pressure,cloud_cover,rain"
 response = requests.get(url)
 data = response.json()
@@ -214,12 +209,43 @@ if st.checkbox('Show raw data', value=True):
     st.subheader('Raw data')
     st.write(df_filtered)
 
-# Creare la mappa
-mappa = create_map()
-output = st_folium(mappa, width=725, height=500)
 
-# Controllo se un marker è stato cliccato
-if output != None:
-    st.write("Coordinate selezionate:")
-    #st.write(f"Latitudine: {output['last_clicked']['lat']}, Longitudine: {output['last_clicked']['lng']}")
+inizio_mappa = [latitude, longitude]
+
+
+
+# Se non c'è uno stato iniziale del marker, lo inizializziamo
+if 'marker' not in st.session_state:
+    st.session_state.marker = None
+
+# Creare una mappa di base
+m = folium.Map(location=inizio_mappa, zoom_start=12)
+
+# Se esiste un marker, lo aggiungiamo alla mappa
+if st.session_state.marker:
+    lat, lng = st.session_state.marker['lat'], st.session_state.marker['lng']
+    folium.Marker([lat, lng], popup="Punto selezionato").add_to(m)
+
+# Visualizzare la mappa
+output = st_folium(m, width=725, height=500, key="mappa_interattiva")
+
+# Se è stato fatto clic sulla mappa
+if output and output['last_clicked'] is not None:
+    lat = output['last_clicked']['lat']
+    lng = output['last_clicked']['lng']
+    
+    # Salvare il marker nel session state
+    st.session_state.marker = {'lat': lat, 'lng': lng}
+    
+    # Aggiornare solo le coordinate mostrate
+    st.write(f"Coordinate selezionate: Latitudine: {lat}, Longitudine: {lng}")
+    
+    # Aggiungere il marker alla mappa
+    m = folium.Map(location=inizio_mappa, zoom_start=12)
+    folium.Marker([lat, lng], popup="Punto selezionato").add_to(m)
+    
+    # Aggiornare la visualizzazione della mappa con il marker
+    st_folium(m, width=725, height=500, key="mappa_interattiva")
+
+
 st.altair_chart(chart, use_container_width=True)
