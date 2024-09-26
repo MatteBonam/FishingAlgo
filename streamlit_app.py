@@ -20,7 +20,8 @@ def calcola_data(data):
 def calcola_fase_lunare(data):
     st.write(data)
     # Data di riferimento per la Luna Nuova (ad esempio il 6 gennaio 2000)
-    riferimento = pd.datetime(2000, 1, 6)
+    riferimento = datetime(2000, 1, 6)
+    riferimento = pd.to_datetime(riferimento)
     st.write(riferimento)
     # Calcolo dei giorni passati dalla data di riferimento
     giorni_passati = (data - riferimento).days
