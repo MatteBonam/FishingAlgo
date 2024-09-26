@@ -13,7 +13,7 @@ from retry_requests import retry
 
 def calcola_data(data):
     datafinale = data[11:21]
-    return data
+    return datafinale
 
 def calcola_fase_lunare(data):
 
