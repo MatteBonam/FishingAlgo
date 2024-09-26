@@ -193,6 +193,7 @@ for index, row in hourly_dataframe.iterrows() :
         "clouds": row["clouds"],
         "wind": row["wind"]
     }
+    st.write(item)
     #attivita = calcola_attivita_pesca(specie, row)
     #hourly_data.at[index, 'attivita'] = (attivita)
 # Filter the dataframe based on the widget input and reshape it.
