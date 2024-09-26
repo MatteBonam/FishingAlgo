@@ -146,9 +146,6 @@ params = {
     "forecast_days" : 14
 }
 response = openmeteo.weather_api(url, params)
-data = response.json()
-# Estrai la lista di dati meteorologici
-weather_list = data.get('hourly', [])
 
 hourly = response.Hourly()
 hourly_temperature_2m = hourly.Variables(0).ValuesAsNumpy()
