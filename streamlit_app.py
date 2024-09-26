@@ -12,7 +12,6 @@ import requests_cache
 from retry_requests import retry
 
 def calcola_data(data):
-    st.write(data)
     # Estrai solo la data
     data = str(data)
     data = data.split('+')[0]
@@ -22,10 +21,8 @@ def calcola_data(data):
     return dt_obj
 
 def calcola_fase_lunare(data):
-    st.write(data)
     # Data di riferimento per la Luna Nuova (ad esempio il 6 gennaio 2000)
     riferimento = datetime(2000, 1, 6)
-    st.write(riferimento)
     # Calcolo dei giorni passati dalla data di riferimento
     giorni_passati = (data - riferimento).days
     # La durata di un ciclo lunare medio è di 29,53 giorni
@@ -204,7 +201,6 @@ for index, row in hourly_dataframe.iterrows() :
         "clouds": row["clouds"],
         "wind": row["wind"]
     }
-    st.write(item)
     attivita = calcola_attivita_pesca(specie, item)
     hourly_dataframe.at[index, 'attivita'] = (attivita)
 # Filter the dataframe based on the widget input and reshape it.
