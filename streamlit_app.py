@@ -14,6 +14,7 @@ from retry_requests import retry
 def calcola_data(data):
     st.write(data)
     # Estrai solo la data
+    data = str(data)
     data = data.split('+')[0]
     # Usa fromisoformat per convertire la stringa in datetime
     dt_obj = datetime.fromisoformat(data)
