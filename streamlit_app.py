@@ -177,19 +177,19 @@ specie = st.radio(
     ],
 )
 
-hourly_data['time'] = pd.to_datetime(hourly_data['time'])
+hourly_dataframe['time'] = pd.to_datetime(hourly_data['time'])
 # Aggiungi anche i dati dalla sezione 'main'
-hourly_data['latitude'] = latitude
-hourly_data['longitude'] = longitude
+hourly_dataframe['latitude'] = latitude
+hourly_dataframe['longitude'] = longitude
 #df['attivita'] = calcola_attivita_pesca(specie, df)
 # Show a slider widget with the years using `st.slider`.
 hour = st.slider("Fascia oraria scelta", 0, 24, (12, 15))
-for index, row in hourly_data.iterrows :
+for index, row in hourly_dataframe.iterrows :
     st.write(row)
     #attivita = calcola_attivita_pesca(specie, row)
     #hourly_data.at[index, 'attivita'] = (attivita)
 # Filter the dataframe based on the widget input and reshape it.
-df_filtered = hourly_data[(hourly_data['time'].between(hour[0], hour[1]))]
+df_filtered = hourly_dataframe[(hourly_dataframe['time'].between(hour[0], hour[1]))]
 
 chart = alt.Chart(df_filtered).mark_line().encode(
     x='hour:O',  # O indica "ordinal" per l'asse delle ore
